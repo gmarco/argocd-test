@@ -1,0 +1,80 @@
+# ---
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: kubernetes-dashboard
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: Group
+  name: /admin
+  namespace: kubernetes-dashboard
+#https://stackoverflow.com/questions/53550321/keycloak-gatekeeper-aud-claim-and-client-id-do-not-match
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-dashboard-proxy
+  namespace: kubernetes-dashboard
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubernetes-dashboard-proxy
+  template:
+    metadata:
+      labels:
+        app: kubernetes-dashboard-proxy
+    spec:
+      containers:
+    #- image: quay.io/gambol99/keycloak-proxy:v2.1.1
+      - image: keycloak/keycloak-gatekeeper
+        name: kubernetes-dashboard-proxy
+        args:
+          - --listen=0.0.0.0:3000
+          - --discovery-url=https://kc.gitma.de/auth/realms/k8s
+          - --verbose=true
+          - --client-id=hetzner-k8s
+          - --client-secret=a3eb572b-6fc7-471c-acfc-f8185b2fd774
+          - --redirection-url=https://dash.kube.gitma.de/
+          - --enable-refresh-tokens=true
+          - --encryption-key=196d76f4e52c6f936c06ad0c6236a451    # 32 bytes string
+          - --upstream-url=https://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local
+          - --resources=uri=/*
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /oauth/health
+            port: 3000
+          initialDelaySeconds: 3
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /oauth/health
+            port: 3000
+          initialDelaySeconds: 3
+          timeoutSeconds: 2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-dashboard-proxy
+  namespace: kubernetes-dashboard
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: kubernetes-dashboard-proxy

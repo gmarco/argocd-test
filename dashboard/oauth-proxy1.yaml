@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+  namespace: kubernetes-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: "oauth2-proxy"
+  template:
+    metadata:
+      labels:
+        k8s-app: oauth2-proxy
+    spec:
+      containers:
+      - name: oauth2-proxy
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
+        imagePullPolicy: Always
+        args:
+        - --provider=keycloak
+        - --email-domain=gitma.de
+        - --cookie-domain=.gitma.de
+        - --upstream=https://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local
+        - --http-address=0.0.0.0:4180
+        - --login-url=https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/auth
+        - --redeem-url=https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/token
+        - --validate-url=https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/userinfo
+        - --ssl-upstream-insecure-skip-verify
+        - --auth-logging=true
+        #- --cookie-secure=false
+        - --set-xauthrequest=true
+        - --scope=openid email profile offline_access
+        #- --set-authorization-header=true
+        - --skip-provider-button=true
+        - --whitelist-domain=.gitma.de
+        - --pass-authorization-header=true
+        - --pass-access-token=true
+
+        env:
+        - name: OAUTH2_PROXY_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: oauth-proxy-secret
+              key: client_id
+        - name: OAUTH2_PROXY_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: oauth-proxy-secret
+              key: client_secret
+        - name: OAUTH2_PROXY_COOKIE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: oauth-proxy-secret
+              key: cookie_secret
+        ports:
+        - containerPort: 4180
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+  namespace: kubernetes-dashboard
+spec:
+  ports:
+  - name: http
+    port: 3000
+    protocol: TCP
+    targetPort: 4180
+  selector:
+    k8s-app: oauth2-proxy
