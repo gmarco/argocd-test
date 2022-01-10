@@ -8,3 +8,4 @@ resources:
 - https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
 - ingress-dashboard.yaml
 - oauth-proxy.yaml
+- metrics-server

@@ -1,0 +1,23 @@
+--
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.5.2/components.yaml
+
+patchesJson6902:
+- target:
+    version: v1
+    kind: Deployment
+    #name: nginx-configuration
+    name: metrics-server
+    namespace: kube-system
+  patch: |-
+    - op: add
+      path: "/spec/template/spec/containers/0/args/-"
+      value: '--kubelet-insecure-tls'
+        #- '--kubelet-preferred-address-types=InternalIP'
+        #- '--kubelet-preferred-address-types=InternalIP'
+        #- '--cert-dir=/tmp'
+        #- '--secure-port=4443'
+        #- '--kubelet-use-node-status-port'
