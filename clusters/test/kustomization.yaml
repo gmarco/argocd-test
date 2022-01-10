@@ -2,4 +2,4 @@ resources:
   - argocd-app.yaml
   - dashboard-app.yaml
   - ingress-app.yaml
-  - grafana-app.yaml
+  - ../../grafana
