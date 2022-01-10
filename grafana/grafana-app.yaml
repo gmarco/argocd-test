@@ -31,9 +31,10 @@ spec:
               enabled: false
       #valueFiles:
       #  - ./values.yaml
-    repoURL: https://grafana.github.io/loki/charts
+    #repoURL: https://grafana.github.io/helm-charts/charts
+    repoURL: https://grafana.github.io/helm-charts/
     #/index.yaml to check
-    targetRevision: 2.1.2
+    targetRevision: 2.5.1
   syncPolicy:
     automated:
       prune: true
