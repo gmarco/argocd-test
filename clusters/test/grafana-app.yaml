@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  destination:
+    namespace: grafana
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: loki-stack
+    helm:
+      values: |
+        fluent-bit.enabled: true
+        promtail.enabled: false
+        grafana.enabled: true 
+        prometheus.enabled: true 
+        prometheus.alertmanager.persistentVolume.enabled: false
+        prometheus.server.persistentVolume.enabled: false
+      #valueFiles:
+      #  - /helm-values/grafana.yaml
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 6.16.2
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
