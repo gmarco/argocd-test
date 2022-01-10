@@ -21,7 +21,7 @@ spec:
         prometheus.server.persistentVolume.enabled: false
       #valueFiles:
       #  - /helm-values/grafana.yaml
-    repoURL: https://grafana.github.io/loki-charts
+    repoURL: https://grafana.github.io/loki/charts
     targetRevision: 2.5.1
   syncPolicy:
     automated:
