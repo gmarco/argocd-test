@@ -20,15 +20,15 @@ spec:
   namespaceResourceWhitelist:
   - group: "*"
     kind: "*"
-  #roles:
-  #- name: "backend-app-admin"
-  #  description: "Backend team's deployment role"
-  #  policies:
-  #  - p, proj:backend:backend-app-admin, applications, *, backend/*, allow
-  #  groups:
-  #  - "Backend"
-  #orphanedResources:
-  #  warn: true
+  roles:
+  - name: "testcluster-admin"
+    description: "Testcluster deployment role"
+    policies:
+    - p, proj:testcluster:testcluster-admin, applications, *, testcluster/*, allow
+    groups:
+    - "/admin"
+  orphanedResources:
+    warn: true
 
 ---
 apiVersion: argoproj.io/v1alpha1
