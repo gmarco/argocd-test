@@ -12,19 +12,25 @@ spec:
   source:
     chart: loki-stack
     helm:
-      # values: |
-      #   fluent-bit:
-      #     enabled: true
-      #   promtail:
-      #     enabled: false
-      #   grafana:
-      #     enabled: true 
-      #   prometheus:
-      #     enabled: true 
-      #   prometheus.alertmanager.persistentVolume.enabled: false
-      #   prometheus.server.persistentVolume.enabled: false
-      valueFiles:
-        - ./values.yaml
+      values: |
+        fluent-bit:
+          enabled: true
+        promtail:
+          enabled: false
+        grafana:
+          enabled: true 
+        prometheus:
+          enabled: true 
+
+          alertmanager:
+            persistentVolume:
+              enabled: false
+
+          server:
+            persistentVolume:
+              enabled: false
+      #valueFiles:
+      #  - ./values.yaml
     repoURL: https://grafana.github.io/loki/charts
     #/index.yaml to check
     targetRevision: 2.1.2
