@@ -1,4 +1,4 @@
 resources:
-  - argcocd-app.yaml
+  - argocd-app.yaml
   - dashboard-app.yaml
   - ingress-app.yaml
