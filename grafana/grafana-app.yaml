@@ -22,7 +22,7 @@ spec:
       #valueFiles:
       #  - /helm-values/grafana.yaml
     repoURL: https://grafana.github.io/helm-charts
-    targetRevision: HEAD
+    targetRevision: 2.5.1
   syncPolicy:
     automated:
       prune: true
