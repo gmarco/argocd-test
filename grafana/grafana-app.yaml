@@ -22,7 +22,7 @@ spec:
       #valueFiles:
       #  - /helm-values/grafana.yaml
     repoURL: https://grafana.github.io/helm-charts
-    targetRevision: loki-stack-2.5.1
+    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
