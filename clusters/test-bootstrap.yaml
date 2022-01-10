@@ -24,7 +24,7 @@ spec:
   - name: "testcluster-admin"
     description: "Testcluster deployment role"
     policies:
-    - p, proj:testcluster:testcluster-admin, applications, *, testcluster/*, allow
+    - p, proj:testcluster:testcluster-admin, applications, *, *, allow
     groups:
     - "/admin"
   orphanedResources:
