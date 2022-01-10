@@ -10,7 +10,7 @@ spec:
     server: https://kubernetes.default.svc
   project: testcluster
   source:
-    chart: charts/loki-stack
+    chart: grafana/loki-stack
     helm:
       values: |
         fluent-bit.enabled: true
@@ -21,7 +21,7 @@ spec:
         prometheus.server.persistentVolume.enabled: false
       #valueFiles:
       #  - /helm-values/grafana.yaml
-    repoURL: https://grafana.github.io/helm-charts
+    repoURL: https://grafana.github.io/loki-charts
     targetRevision: 2.5.1
   syncPolicy:
     automated:
