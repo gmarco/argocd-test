@@ -42,7 +42,7 @@ spec:
     server: https://kubernetes.default.svc 
   project: testcluster 
   source: 
-    path: test
+    path: clusters/test
     repoURL: https://github.com/gmarco/argocd-test.git
     targetRevision: HEAD
 
