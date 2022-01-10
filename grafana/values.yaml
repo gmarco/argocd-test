@@ -1,0 +1,16 @@
+fluent-bit:
+  enabled: true
+promtail:
+  enabled: false
+grafana:
+  enabled: true 
+prometheus:
+  enabled: true 
+
+  alertmanager:
+    persistentVolume:
+      enabled: false
+
+  server:
+    persistentVolume:
+      enabled: false
