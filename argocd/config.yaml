@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   #admin.enabled: "false"
-  url: https://argocd.kube.gitma.de:30443/
+  url: https://argocd.kube.gitma.de/
   oidc.config: |
     name: Keycloak
     issuer: https://kc.gitma.de/auth/realms/k8s
