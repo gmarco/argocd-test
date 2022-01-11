@@ -3,4 +3,4 @@ resources:
   - dashboard-app.yaml
   - ingress-app.yaml
   - grafana-app.yaml
-  - csi-app.yaml
+  #- csi-app.yaml
