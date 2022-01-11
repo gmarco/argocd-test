@@ -64,6 +64,10 @@ grafana:
         gnetId: 1860
         datasource: Prometheus
         revision: 25
+      k8s-cluster-metrics:
+        gnetId: 11663
+        revision: 1
+        datasource: Prometheus
 
   #persistence:
   #  enabled: true
