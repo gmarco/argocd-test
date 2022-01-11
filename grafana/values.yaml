@@ -2,6 +2,8 @@ fluent-bit:
   enabled: true
 promtail:
   enabled: false
+filebeat:
+  enabled: false
 grafana:
   enabled: true 
 prometheus:
