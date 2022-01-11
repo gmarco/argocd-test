@@ -8,7 +8,7 @@ ingress-nginx:
       prometheus.io/port: "10254"
   service:
     type: NodePort
-      nodePorts:
-        http: 80
-        https: 443
+    nodePorts:
+      http: 80
+      https: 443
     
