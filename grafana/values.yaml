@@ -6,6 +6,14 @@ filebeat:
   enabled: false
 grafana:
   enabled: true 
+  ingress: 
+    enabled: true
+    hosts: grafana.kube.gitma.de
+    tls:
+      - hosts:
+        - argocd.kube.gitma.de
+  #persistence:
+  #  enabled: true
 prometheus:
   enabled: true 
 
