@@ -6,9 +6,9 @@ ingress-nginx:
     podAnnotations:
       prometheus.io/scrape: true
       prometheus.io/port: "10254"
-  service:
-    type: NodePort
-    nodePorts:
-      http: 80
-      https: 443
+    service:
+      type: NodePort
+      nodePorts:
+        http: 80
+        https: 443
     
