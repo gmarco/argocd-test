@@ -33,7 +33,25 @@ grafana:
       role_attribute_path: contains(groups[*], '/admin') && 'Admin' || contains(groups[*], 'editor'  ) && 'Editor' || 'Viewer'
       team_ids_attribute_path: contains(groups[*], '/admin') && 'Admin' || contains(groups[*], 'editor'  ) && 'Editor' || 'Viewer'
   envFromSecret: oidc-login
-
+  datasources: 
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://grafana-prometheus-server
+        access: proxy
+        isDefault: true
+  dashboards: {}
+    default:
+      prometheus-stats:
+        gnetId: 2
+        revision: 2
+        datasource: Prometheus
+      node-exporter-full:
+        gnetId: 1860
+        datasource: Prometheus
+        revision: 25
 
   #persistence:
   #  enabled: true
