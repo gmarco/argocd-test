@@ -8,10 +8,11 @@ grafana:
   enabled: true 
   ingress: 
     enabled: true
-    hosts: grafana.kube.gitma.de
+    hosts: 
+      - grafana.kube.gitma.de
     tls:
       - hosts:
-        - argocd.kube.gitma.de
+        - grafana.kube.gitma.de
   #persistence:
   #  enabled: true
 prometheus:
