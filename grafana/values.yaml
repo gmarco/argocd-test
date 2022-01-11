@@ -68,6 +68,10 @@ grafana:
         gnetId: 11663
         revision: 1
         datasource: Prometheus
+      ingress-nginx:
+        gnetid: 9614
+        revision: 1
+        datasource: Prometheus
 
   #persistence:
   #  enabled: true
