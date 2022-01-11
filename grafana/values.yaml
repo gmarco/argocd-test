@@ -28,6 +28,7 @@ grafana:
       client_id: "hetzner-k8s"
       scopes: "openid profile email"
       auth_url: https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/auth
+      token_url: https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/token
       api_url: https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/userinfo
       role_attribute_path: contains(groups[*], '/admin') && 'Admin' || contains(groups[*], 'editor'  ) && 'Editor' || 'Viewer'
       team_ids_attribute_path: contains(groups[*], '/admin') && 'Admin' || contains(groups[*], 'editor'  ) && 'Editor' || 'Viewer'
