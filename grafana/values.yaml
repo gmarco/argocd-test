@@ -31,8 +31,7 @@ grafana:
         api_url: https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/userinfo
         role_attribute_path: contains(groups[*], '/admin') && 'Admin' || contains(groups[*], 'editor'  ) && 'Editor' || 'Viewer'
         team_ids_attribute_path: contains(groups[*], '/admin') && 'Admin' || contains(groups[*], 'editor'  ) && 'Editor' || 'Viewer'
-
-        #GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=
+      envFromSecret: oidc-login
 
 
   #persistence:
