@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
     #- image: quay.io/gambol99/keycloak-proxy:v2.1.1
-      - image: keycloak/keycloak-gatekeeper
+      - image: quay.io/keycloak/keycloak-gatekeeper
         name: kubernetes-dashboard-proxy
         args:
           - --listen=0.0.0.0:3000

@@ -1,0 +1,1 @@
+helm template argocd . -n argocd  > initial-argocd.yaml

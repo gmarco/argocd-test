@@ -1,0 +1,27 @@
+argo-cd:
+  dex:
+    enabled: false
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+        nginx.ingress.kubernetes.io/backend-protocol:  "HTTPS"
+      hosts:
+        - argocd.kube.gitma.de
+  configs:
+    
+    rbac:
+      policy.csv: |
+        g, /admin, role:admin
+    cm:
+      exec.enabled: true
+      url: https://argocd.kube.gitma.de/
+      oidc.config: |
+        name: Keycloak
+        issuer: https://kc.gitma.de/auth/realms/k8s
+        clientID: hetzner-k8s
+        clientSecret: $argocd-secret-oidc:oidc.auth0.clientSecret
+        requestedScopes: ["openid", "profile", "email"]

@@ -6,6 +6,16 @@ ingress-nginx:
     podAnnotations:
       prometheus.io/scrape: true
       prometheus.io/port: "10254"
+    config:
+      compute-full-forwarded-for: "true"
+      use-forwarded-headers: "true"
+      proxy-headers-hash-max-size: "512"
+      proxy-headers-hash-bucket-size: "64"
+      proxy-read-timeout: "3600"
+      proxy-send-timeout: "3600"
+      server-tokens: "false"
+      proxy-buffer-size: "256k"
+      large-client-header-buffers: "8 512k"
     service:
       type: NodePort
       nodePorts:

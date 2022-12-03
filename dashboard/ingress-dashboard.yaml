@@ -5,6 +5,64 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-signin: https://dash.kube.gitma.de/oauth2/start?rd=https%3A%2F%2F$http_host$request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://dash.kube.gitma.de/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Email,X-Auth-Request-Access-Token,Authorization"
+
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol:  "HTTPS"
+
+spec:
+  rules:
+  - host: dash.kube.gitma.de
+    http:
+      paths:
+      - backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 8443
+        path: "/"
+        pathType: Prefix
+  tls:
+    - hosts:
+      - dash.kube.gitma.de
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-test
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-signin: https://dash.kube.gitma.de/oauth2/start?rd=https%3A%2F%2F$http_host$request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://dash.kube.gitma.de/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Email,X-Auth-Request-Access-Token,Authorization"
+
+spec:
+  rules:
+  - host: dash.kube.gitma.de
+    http:
+      paths:
+      - backend:
+          service:
+            name: oauth2-proxy
+            port:
+              number: 3001
+        path: "/test"
+        pathType: Prefix
+  tls:
+    - hosts:
+      - dash.kube.gitma.de
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-oauth
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     #nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     #nginx.ingress.kubernetes.io/backend-protocol:  "HTTPS"
@@ -15,11 +73,10 @@ spec:
       paths:
       - backend:
           service:
-            #name: oauth2-proxy
-            name: kubernetes-dashboard-proxy
+            name: oauth2-proxy
             port:
               number: 3000
-        path: "/"
+        path: "/oauth2"
         pathType: Prefix
   tls:
     - hosts:

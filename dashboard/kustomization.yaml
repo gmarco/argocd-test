@@ -5,7 +5,7 @@ commonLabels:
   app.kubernetes.io/managed-by: argocd
 
 resources:
-- https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+- https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 - ingress-dashboard.yaml
-- oauth-proxy.yaml
+- oauth-proxy1.yaml
 - metrics-server

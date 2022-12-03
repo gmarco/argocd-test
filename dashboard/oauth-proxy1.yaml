@@ -18,27 +18,28 @@ spec:
     spec:
       containers:
       - name: oauth2-proxy
-        image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
-        imagePullPolicy: Always
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.3.0
+        imagePullPolicy: IfNotPresent
         args:
-        - --provider=keycloak
+        - --provider=oidc
         - --email-domain=gitma.de
-        - --cookie-domain=.gitma.de
-        - --upstream=https://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local
+        - --cookie-domain=.kube.gitma.de
+        - --upstream=file:///dev/null #https://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local/
         - --http-address=0.0.0.0:4180
-        - --login-url=https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/auth
-        - --redeem-url=https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/token
-        - --validate-url=https://kc.gitma.de/auth/realms/k8s/protocol/openid-connect/userinfo
-        - --ssl-upstream-insecure-skip-verify
+        - --oidc-issuer-url=https://kc.gitma.de/auth/realms/k8s
+        - --ssl-upstream-insecure-skip-verify=true
+        - --ssl-insecure-skip-verify=true
         - --auth-logging=true
         #- --cookie-secure=false
-        - --set-xauthrequest=true
-        - --scope=openid email profile offline_access
-        #- --set-authorization-header=true
+        - --cookie-name=oauth_dash
+        - --cookie-refresh=4m30s
+        - --scope=openid email profile
         - --skip-provider-button=true
-        - --whitelist-domain=.gitma.de
+        - --whitelist-domain=.kube.gitma.de
         - --pass-authorization-header=true
         - --pass-access-token=true
+        - --set-authorization-header=true
+        - --set-xauthrequest=true
 
         env:
         - name: OAUTH2_PROXY_CLIENT_ID
@@ -59,6 +60,8 @@ spec:
         ports:
         - containerPort: 4180
           protocol: TCP
+      - name: echo
+        image: ealen/echo-server:latest
 ---
 apiVersion: v1
 kind: Service
@@ -73,5 +76,9 @@ spec:
     port: 3000
     protocol: TCP
     targetPort: 4180
+  - name: echo
+    port: 3001
+    protocol: TCP
+    targetPort: 80
   selector:
     k8s-app: oauth2-proxy
